@@ -1,4 +1,4 @@
-GraphicsWindow.BackgroundColor = "DarkBlue"
+GraphicsWindow.BackgroundColor = "White"
 
 balloonX = 0
 balloonY = 0
@@ -6,6 +6,16 @@ balloonDiameter = 20
 balloon = Shapes.AddEllipse(balloonDiameter, balloonDiameter)
 balloonSpeed = 1
 balloonDirection = 1
+
+width = GraphicsWindow.Width
+height = GraphicsWindow.Height
+
+cannonBodyWidth = 30
+cannonBarrelWidth = 15
+cannonBarrelHeight = 10
+cannonBodyHeight = 10
+cannonX = GraphicsWindow.Width - cannonBodyWidth - cannonBarrelWidth
+cannonY = GraphicsWindow.Height - cannonBodyHeight
 
 RunLoop:
   height = GraphicsWindow.Height
