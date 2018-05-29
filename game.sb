@@ -1,0 +1,24 @@
+GraphicsWindow.BackgroundColor = "DarkBlue"
+
+balloonX = 0
+balloonY = 0
+balloonDiameter = 20
+balloon = Shapes.AddEllipse(balloonDiameter, balloonDiameter)
+balloonSpeed = 1
+balloonDirection = 1
+
+RunLoop:
+  height = GraphicsWindow.Height
+
+  balloonY = balloonY + balloonSpeed*balloonDirection
+  
+  If (balloonY + balloonDiameter >= height or balloonY <= 0) Then
+    balloonDirection = -balloonDirection
+    
+    balloonY = balloonY + balloonSpeed*balloonDirection
+  EndIf
+  
+  Shapes.Move(balloon, balloonX, balloonY)
+  Program.Delay(5)
+  
+  Goto RunLoop
