@@ -32,6 +32,8 @@ cannonSpeed = 1
 canShoot = 1
 bulletSpeed = 0
 
+missedShots = 0
+
 bulletSize = 10
 bullet = Shapes.AddRectangle(bulletSize, bulletSize)
 bulletX = -bulletSize
@@ -51,7 +53,7 @@ RunLoop:
   
   cannonY = cannonY + cannonSpeed*cannonDirection
   
-  If (cannonY + cannonBodyHeight >= height or balloonY <= 0) Then
+  If (cannonY + cannonBodyHeight >= height or cannonY <= 0) Then
     cannonY = cannonY - cannonSpeed*cannonDirection
   EndIf
   
@@ -60,23 +62,38 @@ RunLoop:
   bulletX = bulletX - bulletSpeed
   
   If(bulletX <= -bulletSize) Then
+    If canShoot = 0 Then
+      missedShots = missedShots + 1
+    EndIf
     canShoot = 1
     bulletSpeed = 0
   EndIf
   
+  If Math.GetRandomNumber(30) = 30 Then
+    balloonDirection = balloonDirection * -1
+  EndIf
+    
   Shapes.Move(balloon, balloonX, balloonY)
   Shapes.Move(body, cannonX, cannonY)
   Shapes.Move(barrel, barrelX, barrelY)
-  Program.Delay(5)
+  Shapes.Move(bullet, bulletX, bulletY)
+  Program.Delay(5)  
   
-  Goto RunLoop
+  If (bulletX <= balloonX + balloonDiameter) and (bulletX + bulletSize >= balloonX) and (bulletY <= balloonY + balloonDiameter) and (bulletY + bulletSize >= balloonY) Then
+    GraphicsWindow.ShowMessage("Missed shots = " + missedShots, "You Win!")
+  Else
+    Goto RunLoop
+  EndIf
+  
+  
+  
   
 Sub keyDown
   If GraphicsWindow.LastKey = "Up" Then
     cannonDirection = -1
   ElseIf GraphicsWindow.LastKey = "Down" Then
     cannonDirection = 1
-  ElseIf GraphicsWindow.LastKey = " " Then
+  ElseIf GraphicsWindow.LastKey = "Space" Then
     shoot()
   EndIf
 EndSub
